@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ML_Demo</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">ML Demo Home</string>
+    <string name="second_fragment_label">ML Demo Result</string>
+    <string name="next">Start</string>
+    <string name="previous">Back</string>
+
+    <string name="lorem_ipsum"> Nothing Here now... </string>
+</resources>
