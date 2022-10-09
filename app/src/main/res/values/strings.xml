@@ -7,5 +7,6 @@
     <string name="next">Start</string>
     <string name="previous">Back</string>
 
-    <string name="lorem_ipsum"> Nothing Here now... </string>
+    <string name="lorem_ipsum"> Nothing Here So Far. </string>
+    <string name="image_view_description"> Image From Camera / Existing Images. </string>
 </resources>
