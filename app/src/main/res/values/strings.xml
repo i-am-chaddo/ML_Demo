@@ -1,12 +1,8 @@
 <resources>
     <string name="app_name">ML_Demo</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">ML Demo Home</string>
-    <string name="second_fragment_label">ML Demo Result</string>
-    <string name="next">Start</string>
-    <string name="previous">Back</string>
-
-    <string name="lorem_ipsum"> Nothing Here So Far. </string>
-    <string name="image_view_description"> Image From Camera / Existing Images. </string>
+    <string name="button_start_label">Start</string>
+    <string name="text_view_result_text"> Nothing Here So Far </string>
+    <string name="imageview_to_be_processed_description"> Image From Camera / Existing Images. </string>
 </resources>
