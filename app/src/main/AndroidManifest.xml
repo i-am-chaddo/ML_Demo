@@ -35,11 +35,6 @@
 
         <!-- Added By Me -->
         <meta-data
-            android:name="com.google.mlkit.vision.DEPENDENCIES"
-            android:value="ocr" />
-
-        <!-- Added By Me -->
-        <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="ocr" />
 

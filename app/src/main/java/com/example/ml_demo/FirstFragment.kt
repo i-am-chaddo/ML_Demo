@@ -36,7 +36,7 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Setting default image
-        binding.imageviewToBeProcessed.setImageResource(R.drawable.azad_profile)
+        binding.imageviewToBeProcessed.setImageResource(R.drawable.sneha_profile)
 
         binding.buttonStart.setOnClickListener {
 
@@ -45,7 +45,7 @@ class FirstFragment : Fragment() {
             startActivityForResult(gallery, pickImage)
 
             // convert image URI to inputImage
-//            var imageForMLModel = imageUri?.let { it1 -> InputImage.fromFilePath(requireContext(), it1) }
+            // var imageForMLModel = imageUri?.let { it1 -> InputImage.fromFilePath(requireContext(), it1) }
 
             // text detection code
         }
