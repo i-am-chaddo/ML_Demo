@@ -8,23 +8,25 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.ml_demo.databinding.FragmentFirstBinding
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 
 
 class FirstFragment : Fragment() {
 
+    private var _binding: FragmentFirstBinding? = null
     private val pickImage = 100
     private var imageUri: Uri? = null
-    private var _binding: FragmentFirstBinding? = null
+    var textFromPickedImage: String? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
@@ -39,15 +41,8 @@ class FirstFragment : Fragment() {
         binding.imageviewToBeProcessed.setImageResource(R.drawable.sneha_profile)
 
         binding.buttonStart.setOnClickListener {
-
-            // image pickup
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(gallery, pickImage)
-
-            // convert image URI to inputImage
-            // var imageForMLModel = imageUri?.let { it1 -> InputImage.fromFilePath(requireContext(), it1) }
-
-            // text detection code
         }
     }
 
@@ -55,7 +50,40 @@ class FirstFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == pickImage) {
             imageUri = data?.data
+
+            // set selected image to imageView
             binding.imageviewToBeProcessed.setImageURI(imageUri)
+
+            // convert image URI to inputImage
+            var imageForMLModel =
+                imageUri?.let { it1 -> InputImage.fromFilePath(requireContext(), it1) }
+
+            // text detection code
+            if (imageForMLModel != null) {
+                recognizeText(imageForMLModel)
+            } else {
+                error("Null image.")
+            }
+
+        }
+
+    }
+
+    fun recognizeText(image: InputImage) {
+
+        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+        recognizer.process(image).addOnSuccessListener { visionText ->
+            for (block in visionText.textBlocks) {
+                val text = block.text
+                textFromPickedImage = textFromPickedImage + text
+            }
+            println("Text Retrived : " + textFromPickedImage)
+            binding.textViewResult.text = textFromPickedImage
+        }.addOnFailureListener { e ->
+            Toast.makeText(
+                context, "Something went wrong while processing image.", Toast.LENGTH_SHORT
+            ).show()
+            error(e.message.toString())
         }
     }
 
