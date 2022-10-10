@@ -21,25 +21,20 @@ class FirstFragment : Fragment() {
     private var _binding: FragmentFirstBinding? = null
     private val pickImage = 100
     private var imageUri: Uri? = null
-    var textFromPickedImage: String? = null
+    private var textFromPickedImage: String? = null
 
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Setting default image
         binding.imageviewToBeProcessed.setImageResource(R.drawable.sneha_profile)
-
         binding.buttonStart.setOnClickListener {
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(gallery, pickImage)
@@ -50,41 +45,34 @@ class FirstFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == pickImage) {
             imageUri = data?.data
-
-            // set selected image to imageView
             binding.imageviewToBeProcessed.setImageURI(imageUri)
-
-            // convert image URI to inputImage
-            var imageForMLModel =
-                imageUri?.let { it1 -> InputImage.fromFilePath(requireContext(), it1) }
-
-            // text detection code
+            val imageForMLModel = imageUri?.let { it1 -> InputImage.fromFilePath(requireContext(), it1) }
             if (imageForMLModel != null) {
                 recognizeText(imageForMLModel)
             } else {
                 error("Null image.")
             }
-
         }
-
     }
 
-    fun recognizeText(image: InputImage) {
-
+    private fun recognizeText(image: InputImage) {
         val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
-        recognizer.process(image).addOnSuccessListener { visionText ->
-            for (block in visionText.textBlocks) {
-                val text = block.text
-                textFromPickedImage = textFromPickedImage + text
+        recognizer.process(image)
+            .addOnSuccessListener { visionText ->
+                for (block in visionText.textBlocks) {
+                    val text = block.text
+                    textFromPickedImage += text
+                }
+                if(textFromPickedImage == null){
+                    binding.textViewResult.text = getString(R.string.text_view_result_text)
+                }else{
+                    binding.textViewResult.text = textFromPickedImage
+                }
             }
-            println("Text Retrived : " + textFromPickedImage)
-            binding.textViewResult.text = textFromPickedImage
-        }.addOnFailureListener { e ->
-            Toast.makeText(
-                context, "Something went wrong while processing image.", Toast.LENGTH_SHORT
-            ).show()
-            error(e.message.toString())
-        }
+            .addOnFailureListener { e ->
+                Toast.makeText(context, "Something went wrong while processing image.", Toast.LENGTH_SHORT).show()
+                error(e.message.toString())
+            }
     }
 
     override fun onDestroyView() {
