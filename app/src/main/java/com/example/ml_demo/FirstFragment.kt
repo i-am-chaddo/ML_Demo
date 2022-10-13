@@ -162,6 +162,12 @@ class FirstFragment : Fragment() {
             for (block in visionText.textBlocks) {
                 val text = block.text
                 textFromPickedImage += text
+                for (line in block.lines) {
+                    textFromPickedImage += "\n"
+                    for (element in line.elements) {
+                        textFromPickedImage += " "
+                    }
+                }
             }
             if ((textFromPickedImage == null) || (textFromPickedImage == "")) {
                 binding.textViewResult.text = getString(R.string.text_view_result_text)
@@ -183,6 +189,7 @@ class FirstFragment : Fragment() {
         tts = TextToSpeech(context) {
             if (it == TextToSpeech.SUCCESS) {
                 tts.language = Locale.US
+                tts.setSpeechRate(0.5f)
                 @Suppress("DEPRECATION")
                 tts.speak(textForSpeak, TextToSpeech.QUEUE_FLUSH, null)
             }

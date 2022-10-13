@@ -41,6 +41,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="50dp"
                 android:text="@string/button_gallery_label"
+                android:textSize="10dp"
                 android:layout_alignParentLeft="true" />
 
             <Button
@@ -49,6 +50,7 @@
                 android:layout_height="50dp"
                 android:layout_marginRight="50dp"
                 android:text="@string/button_camera_label"
+                android:textSize="10dp"
                 android:layout_alignParentRight="true" />
 
         </RelativeLayout>
