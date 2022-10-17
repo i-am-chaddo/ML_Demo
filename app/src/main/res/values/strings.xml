@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Sneha ML Demo</string>
+    <string name="app_name">ML Demo</string>
     <string name="action_settings">Settings</string>
     <string name="first_fragment_label">ML Demo Home</string>
-    <string name="button_gallery_label">Gallery</string>
-    <string name="button_camera_label">Camera</string>
-    <string name="text_view_result_text"> No Text Found. </string>
-    <string name="imageview_to_be_processed_description"> Image From Camera / Existing Images. </string>
+    <string name="button_object_detection">Object</string>
+    <string name="button_text_detection">Text</string>
+    <string name="text_view_result_text">Nothing Found.</string>
+    <string name="imageview_to_be_processed_description">Image From Camera / Existing Images.</string>
 </resources>
