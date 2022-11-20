@@ -5,6 +5,6 @@
     <string name="button_text_detection">Text</string>
     <string name="button_replay_results">Replay Results</string>
     <string name="button_object_detection">Object</string>
-    <string name="text_view_result_text">Nothing Found.</string>
+    <string name="text_view_result_text">No result found.</string>
     <string name="imageview_to_be_processed_description">Image From Camera / Existing Images.</string>
 </resources>

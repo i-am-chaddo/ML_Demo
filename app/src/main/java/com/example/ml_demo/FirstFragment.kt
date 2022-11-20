@@ -272,7 +272,7 @@ class FirstFragment : Fragment() {
         tts = TextToSpeech(context) {
             if (it == TextToSpeech.SUCCESS) {
                 tts.language = Locale.US
-                tts.setSpeechRate(0.7f)
+                tts.setSpeechRate(0.75f)
                 @Suppress("DEPRECATION") tts.speak(textForSpeak, TextToSpeech.QUEUE_FLUSH, null)
             }
         }
