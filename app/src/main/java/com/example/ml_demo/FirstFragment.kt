@@ -58,6 +58,8 @@ class FirstFragment : Fragment() {
         processDialog.setTitle("Please Wait")
         processDialog.setCanceledOnTouchOutside(false)
 
+        binding.textViewResult.text = "Please select any of the available option."
+
         binding.buttonTextDetection.setOnClickListener {
             val values = ContentValues()
             values.put(MediaStore.Images.Media.TITLE, "CAP_IMG")
@@ -80,6 +82,10 @@ class FirstFragment : Fragment() {
             val camera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             camera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
             @Suppress("DEPRECATION") startActivityForResult(camera, objectDetectionCode)
+        }
+
+        binding.buttonReplayResults.setOnClickListener {
+            speakOut(binding.textViewResult.text.toString())
         }
     }
 
@@ -218,9 +224,6 @@ class FirstFragment : Fragment() {
                 textFromPickedImage += text
                 for (line in block.lines) {
                     textFromPickedImage += "\n"
-                    for (element in line.elements) {
-                        textFromPickedImage += " "
-                    }
                 }
             }
             processDialog.dismiss()
@@ -242,13 +245,14 @@ class FirstFragment : Fragment() {
         textFromPickedImage = ""
         processDialog.setMessage("Preparing image...")
         processDialog.show()
-        val options = ImageLabelerOptions.Builder().setConfidenceThreshold(0.95f).build()
+        val options = ImageLabelerOptions.Builder().setConfidenceThreshold(0.51f).build()
         val objectDetector = ImageLabeling.getClient(options)
         processDialog.setMessage("Detecting objects...")
         objectDetector.process(image).addOnSuccessListener { imageLabels ->
             for (label in imageLabels) {
-                textFromPickedImage += label.text + "\n"
+                textFromPickedImage += label.text + ", or "
             }
+            textFromPickedImage = textFromPickedImage!!.dropLast(5) + "."
             processDialog.dismiss()
             if ((textFromPickedImage == null) || (textFromPickedImage == "")) {
                 binding.textViewResult.text = getString(R.string.text_view_result_text)
@@ -268,7 +272,7 @@ class FirstFragment : Fragment() {
         tts = TextToSpeech(context) {
             if (it == TextToSpeech.SUCCESS) {
                 tts.language = Locale.US
-                tts.setSpeechRate(1.0f)
+                tts.setSpeechRate(0.7f)
                 @Suppress("DEPRECATION") tts.speak(textForSpeak, TextToSpeech.QUEUE_FLUSH, null)
             }
         }
